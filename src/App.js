@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
 
-function App() {
+import { getRandomDerangement } from './utils';
+
+import AddParticipantButtonAndDialog from './AddParticipantButtonAndDialog';
+import GenerateRandomDerangementButton from './GenerateRandomDerangementButton';
+import ParticipantsList from './ParticipantsList';
+import ArrowsList from './ArrowsList';
+import DerangementList from './DerangementList';
+import MyAppBar from './MyAppBar';
+
+const App = () => {
+  const [participants, setParticipants] = useState([]);
+  const addParticipant = (participant) => {
+    setParticipants([...participants, participant]);
+  };
+
+  const [derangement, setDerangement] = useState([]);
+  const generateRandomDerangement = () => {
+    const randomDerangement = getRandomDerangement(participants)
+    setDerangement(randomDerangement)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <MyAppBar />
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <AddParticipantButtonAndDialog addParticipant={addParticipant} />
+        <GenerateRandomDerangementButton generateRandomDerangement={generateRandomDerangement} />
+        <ParticipantsList participants={participants} />
+        <ArrowsList derangement={derangement} />
+        <DerangementList derangement={derangement} />
+      </div >
+    </>
   );
-}
+};
 
 export default App;
